@@ -16,7 +16,7 @@ stack *create_stack(stack *s){
     s->top=NULL;
     return s;
 }
-stack *push(stack *s , int data){
+void push(stack *s , int data){
     node *temp= (node*) malloc(sizeof(node));
     temp->data=data;
     temp->next=NULL;
@@ -28,7 +28,7 @@ stack *push(stack *s , int data){
         temp->next=s->top;
         s->top=temp;
     }
-    return s;
+    return;
 }
 int pop(stack *s){
     node *temp;
@@ -72,7 +72,7 @@ int main(){
         case 1:
             printf("Enter data to push : ");
             scanf("%d",&data);
-            s=push(s,data);
+            push(s,data);
             break;
         case 2:
             data = pop(s);
@@ -82,7 +82,7 @@ int main(){
             display(s);
             break;
         case 4:
-            is_empty(s)?printf("It is not empty"):printf("Yes it is empty");
+            is_empty(s)?printf("Yes it is empty"):printf("It is not empty");
             break;
         default:
             printf("Enter correct option");
