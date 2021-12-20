@@ -6,66 +6,76 @@ typedef struct node
     struct node *next;
 }node;
 
-typedef struct stack
+typedef struct queue
 {
-    node *top;
-}stack;
+    node *front;
+    node *rear;
+}queue;
 
-stack *create_stack(stack *s){
-    s = (stack*) malloc(sizeof(stack));
-    s->top=NULL;
-    return s;
+queue *create_queue(queue *q){
+    q = (queue*) malloc(sizeof(queue));
+    q->front=NULL;
+    q->rear=NULL;
+    return q;
 }
-void push(stack *s , int data){
+void push(queue *q , int data){
     node *temp= (node*) malloc(sizeof(node));
     temp->data=data;
     temp->next=NULL;
-    if(s==NULL)
+    if(q->front==NULL&&q->rear==NULL)
     {
-        s->top=temp;
+        q->front=temp;
+        q->rear=temp;
     }
     else{
-        temp->next=s->top;
-        s->top=temp;
+        q->rear->next=temp;
+        q->rear=temp;
     }
     return;
 }
-int pop(stack *s){
+int pop(queue *q){
     node *temp;
     int data = -1;
-    if(s->top==NULL)
+    if(q->front==NULL)
     {
-        printf("Stack is empty.\n");
+        printf("queue is empty.\n");
+    }
+    else if (q->front==q->rear)
+    {
+        temp=q->front;
+        data=temp->data;
+        q->front=q->rear=NULL;
+        free(temp);
     }
     else
     {
-        temp=s->top;
+        temp=q->front;
         data=temp->data;
-        s->top=s->top->next;
+        q->front=q->front->next;
+        free(temp);
     }
-    free(temp);
     return data;
 }
-void display(stack *s){
-    node *temp=s->top;
+void display(queue *q){
+    node *temp=q->front;
     while (temp!=NULL)
     {
         printf("%d \t",temp->data);
         temp=temp->next;
     }
 }
-int is_empty(stack *s){
-    if(s->top==NULL)
+int is_empty(queue *q){
+    if(q->front==NULL&&q->rear==NULL)
     return 1;
     else
     return 0;
 }
 int main(){
-    stack *s;
+    queue *s;
     int condition,data;
-    s=create_stack(s);
+    s=create_queue(s);
     while(1){
-        printf("Press 1 for push \nPress 2 for pop \nPress 3 for display\nPress 4 to check stack is empty or not \nPress 5 to exit\n");
+        printf("Press 1 for push \nPress 2 for pop \nPress 3 for display\nPress 4 to check queue is empty or not \nPress 5 to exit\n");
         printf("Enter option :- ");
         scanf("%d",&condition);
         switch (condition)
